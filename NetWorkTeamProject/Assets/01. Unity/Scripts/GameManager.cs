@@ -17,10 +17,11 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //Vector3 randomSpawnPos = Random.insideUnitSphere * 20f;
-        //randomSpawnPos.y = 0f;
-
-        PhotonNetwork.Instantiate(playerCharacter.name, new Vector3(0, 0, 0), Quaternion.identity);
+        Vector3 randomSpawnPos = Random.insideUnitSphere * 30f;
+        randomSpawnPos.y = 0f;
+        //Vector3 initialPos = new Vector3(10, 0, 10);
+        //Vector3 newSpawnPos=randomSpawnPos + initialPos;
+        PhotonNetwork.Instantiate(playerCharacter.name, randomSpawnPos, Quaternion.identity);
     }
 
     void Update()

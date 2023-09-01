@@ -7,6 +7,7 @@ using Photon.Pun;
 public class PlayerMove : MonoBehaviourPun
 {
     public Transform attackRange;   // 공격 범위 설정 콜라이더
+    public bool isDead = false;
 
     private Rigidbody playerRigidbody;   // 플레이어 리짓바디
     private Collider playerCollider;   // 플레이어 콜라이더
@@ -14,7 +15,7 @@ public class PlayerMove : MonoBehaviourPun
     private Animator playerAnimator;   // 플레이어 애니메이터
     private GameObject hited;   // 근접 공격 시 타격된 오브젝트
     private Vector3 move = Vector3.zero;   // 플레이어의 Z 축을 움직일 벡터값
-    private Vector3 hitVector = Vector3.zero;
+    private Vector3 hitVector = Vector3.zero;   // 공격 시 공격하는 플레이어의 위치값
     private float moveSpeed = default;   // 플레이어가 움직일 스피드값
     private float rotateSpeed = default;   // 플레이어 회전 값
     private float xInput = default;   // X 축 입력값
@@ -26,6 +27,7 @@ public class PlayerMove : MonoBehaviourPun
     private float attackRadius = default;   // 근접 공격 범위 반지름 값
     private bool isJumped = false;   // 점프 중 확인
     private bool isAttacked = false;   // 근접 공격 중 확인
+    private PlayerHit playerHit_;
 
     void Awake()
     {
@@ -33,6 +35,7 @@ public class PlayerMove : MonoBehaviourPun
         playerRigidbody = GetComponent<Rigidbody>();   // 플레이어 리짓바디 설정
         playerCollider = GetComponent<Collider>();   // 플레이어 콜라이더 설정
         playerAnimator = GetComponent<Animator>();   // 플레이어 애니메이터 설정
+        playerHit_ = GetComponent<PlayerHit>();
         
         moveSpeed = 10f;
         rotateSpeed = 180f;
@@ -49,6 +52,7 @@ public class PlayerMove : MonoBehaviourPun
     void Update()
     {
         if (!photonView.IsMine) { return; }
+        if (isDead) { return; }
 
         if (isAttacked == false)
         {
@@ -122,5 +126,10 @@ public class PlayerMove : MonoBehaviourPun
         yield return new WaitForSeconds(0.5f);
 
         isAttacked = false;   // 근접 공격 쿨타임 이후 다시 isAttacked 를 false 로 변경한다
+    }
+
+    public void Test()
+    {
+        Debug.Log("Test On");
     }
 }
